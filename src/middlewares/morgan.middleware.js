@@ -14,12 +14,11 @@ export const morganMiddleware = morgan(
     },
     {
       stream: {
-        // Configure Morgan to use our custom logger with the http severity
         write: (message) => {
           const data = JSON.parse(message);
           logger.http(
               // eslint-disable-next-line max-len
-              `${data.httpVersion} ${data.method} ${data.url} ${data.status} ${data.content_length} ${data.response_time}ms`,
+              `${data.httpVersion} ${data.method} ${data.url} ${data.status} ${data.response_time}ms`,
               { label: 'API' },
           );
         },

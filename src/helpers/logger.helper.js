@@ -5,12 +5,22 @@ winston.addColors(winston.config.syslog.colors);
 
 const logger = winston.createLogger({
   level: 'silly',
+  levels: {
+    error: 0,
+    warn: 1,
+    info: 2,
+    http: 3,
+    verbose: 4,
+    debug: 5,
+    silly: 6,
+  },
   format: winston.format.combine(
       winston.format.errors({ stack: true }),
       winston.format.timestamp(),
       winston.format.json(),
       winston.format.prettyPrint(),
   ),
+  defaultMeta: { service: 'boot' },
   transports: [
     new winston.transports.File({
       filename: './logs/error.log',
@@ -68,8 +78,15 @@ if (envConfig.ENV !== 'production') {
                     msg = { ...msg, ...metadata };
                   }
 
+                  if (stack) {
+                    msg.stack = stack;
+
+                    // eslint-disable-next-line max-len
+                    return `${msg.timestamp} [${msg.level}] ${msg.label ? `(${msg.label})` : ''}: ${msg.message}\n${msg.stack}`;
+                  }
+
                   // eslint-disable-next-line max-len
-                  return `${msg.timestamp} [${msg.level}] ${msg.label ? `(${msg.label})` : ''}: ${msg.message} ${msg.stack ? `\n${msg.stack}` : ''}`;
+                  return `${msg.timestamp} [${msg.level}] ${msg.label ? `(${msg.label})` : ''}: ${msg.message}`;
                 },
             ),
         ),
