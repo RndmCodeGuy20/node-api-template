@@ -1,16 +1,17 @@
 import app from './app';
 import { envConfig } from '#configs/index';
+import { logger } from '#helpers/index';
 
 let server;
 
 const init = async () => {
   server = app.listen(envConfig.PORT, () => {
-    logger.info(
+    logger.log(
+        'verbose',
         `Listening on ${envConfig.HOSTNAME} http://localhost:${envConfig.PORT}`,
     );
   });
 };
-
 
 const exitHandler = () => {
   if (server) {
@@ -24,7 +25,8 @@ const exitHandler = () => {
 };
 
 const unexpectedErrorHandler = (error) => {
-  logger.fatal(`unexpectedErrorHandler ${error}`);
+  logger.log('error', `unexpectedErrorHandler ${error}`);
+  // console.log('unexpectedErrorHandler', error);
   exitHandler();
 };
 
@@ -38,9 +40,15 @@ process.on('SIGTERM', () => {
   }
 });
 
+/**
+ * @description - start the server, handles promise rejections
+ * and exits the process if an error occurs.
+ */
 init()
-    .then((r) => logger.info(`Server started on port ${envConfig.PORT}`))
-    .catch((e) => {
-      logger.error(`Server failed to start ${e}`);
+    .then(() => {
+      logger.log('verbose', 'Server started successfully');
+    })
+    .catch((error) => {
+      logger.error(error);
       process.exit(1);
     });

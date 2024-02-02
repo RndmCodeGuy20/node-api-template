@@ -1,1 +1,1 @@
-export * from './logger.helper';
+export * from './logger.helper.js';

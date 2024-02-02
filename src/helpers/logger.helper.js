@@ -5,8 +5,8 @@ winston.addColors(winston.config.syslog.colors);
 
 const logger = winston.createLogger({
   level: 'silly',
-  // colors: winston.config.syslog.colors,
   format: winston.format.combine(
+      winston.format.errors({ stack: true }),
       winston.format.timestamp(),
       winston.format.json(),
       winston.format.prettyPrint(),
@@ -14,7 +14,7 @@ const logger = winston.createLogger({
   transports: [
     new winston.transports.File({
       filename: './logs/error.log',
-      level: 'error',
+      level: 'warn',
     }),
     new winston.transports.File({ filename: './logs/combined.log' }),
   ],
@@ -24,7 +24,6 @@ if (envConfig.ENV !== 'production') {
   logger.add(
       new winston.transports.Console({
         format: winston.format.combine(
-            winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
             winston.format.colorize({
               all: true,
               colors: {
@@ -32,9 +31,13 @@ if (envConfig.ENV !== 'production') {
                 info: 'green',
                 warn: 'yellow',
                 error: 'red',
-                silly: 'magenta',
+                verbose: 'italic cyan',
+                http: 'magenta',
               },
             }),
+            winston.format.splat(),
+            winston.format.errors({ stack: true }),
+            winston.format.timestamp({ format: 'DD/MM/YYYY HH:mm:ss' }),
             winston.format.json({
               space: 2,
               replacer: (key, value) => {
@@ -44,15 +47,31 @@ if (envConfig.ENV !== 'production') {
                 return value;
               },
             }),
-            winston.format.printf(({ timestamp, level, message }) => {
-              // const ISTDate = new Date(timestamp).toISOString();
-              //
-              // const date = ISTDate.slice(0, 10);
-              // const time = ISTDate.slice(11, 19);
-              //
-              // return `${date} ${time} [${level}]: ${message}`;
-              return `${timestamp} [${level}]: ${message}`;
-            }),
+            winston.format.printf(
+                ({
+                  timestamp,
+                  level,
+                  message,
+                  label = 'boot',
+                  stack,
+                  ...metadata
+                }) => {
+                  let msg = {
+                    timestamp,
+                    level,
+                    message,
+                    label,
+                    stack,
+                  };
+
+                  if (metadata) {
+                    msg = { ...msg, ...metadata };
+                  }
+
+                  // eslint-disable-next-line max-len
+                  return `${msg.timestamp} [${msg.level}] ${msg.label ? `(${msg.label})` : ''}: ${msg.message} ${msg.stack ? `\n${msg.stack}` : ''}`;
+                },
+            ),
         ),
       }),
   );
