@@ -1,0 +1,30 @@
+{
+  "name": "node-api-template",
+  "version": "1.0.0",
+  "description": "api boilerplate for robust and scalable REST type arch",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RndmCodeGuy20/node-api-template.git"
+  },
+  "keywords": [
+    "api",
+    "boilerplate",
+    "template",
+    "REST"
+  ],
+  "author": "RndmCodeGuy20",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RndmCodeGuy20/node-api-template/issues"
+  },
+  "homepage": "https://github.com/RndmCodeGuy20/node-api-template#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.23.9",
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9"
+  }
+}
