@@ -6,6 +6,9 @@ import { pkgConfig, envConfig } from '#configs/index';
 import { errorMiddleware, morganMiddleware } from '#middlewares/index';
 import apiRoutes from './api';
 import { jsend } from '#utils/index';
+import * as http from 'http';
+import wss from './api/v1.0/modules/socket/controller';
+import { logger } from '#helpers/index';
 
 const corsOptions = {
   origin: '*',
@@ -15,6 +18,8 @@ const corsOptions = {
 };
 
 const app = express();
+
+const server = http.createServer(app);
 
 app.use(helmet());
 app.use(cors(corsOptions));
@@ -40,4 +45,15 @@ app.use((err, req, res, next) => {
   errorMiddleware(err, req, res, next);
 });
 
-export default app;
+server.on('upgrade', (request, socket, head) => {
+  try {
+    wss.handleUpgrade(request, socket, head, (ws) => {
+      wss.emit('connection', ws, request);
+    });
+  } catch (error) {
+    logger.log('error', error);
+    socket.destroy();
+  }
+});
+
+export { server };

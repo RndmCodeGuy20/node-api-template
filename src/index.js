@@ -1,11 +1,11 @@
-import app from './app';
+import { server } from './app';
 import { envConfig } from '#configs/index';
 import { logger } from '#helpers/index';
 
-let server;
+let app;
 
 const init = async () => {
-  server = app.listen(envConfig.PORT, () => {
+  app = server.listen(envConfig.PORT, () => {
     logger.log(
         'verbose',
         `Listening on ${envConfig.HOSTNAME} http://localhost:${envConfig.PORT}`,
@@ -14,8 +14,8 @@ const init = async () => {
 };
 
 const exitHandler = () => {
-  if (server) {
-    server.close(() => {
+  if (app) {
+    app.close(() => {
       logger.info('Server closed');
       process.exit(1);
     });
@@ -35,8 +35,8 @@ process.on('unhandledRejection', unexpectedErrorHandler);
 
 process.on('SIGTERM', () => {
   logger.info('SIGTERM received');
-  if (server) {
-    server.close();
+  if (app) {
+    app.close();
   }
 });
 

@@ -17,7 +17,6 @@ export const morganMiddleware = morgan(
         write: (message) => {
           const data = JSON.parse(message);
           logger.http(
-              // eslint-disable-next-line max-len
               `${data.httpVersion} ${data.method} ${data.url} ${data.status} ${data.response_time}ms`,
               { label: 'API' },
           );
