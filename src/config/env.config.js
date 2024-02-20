@@ -10,7 +10,8 @@ const {
   APP_PORT,
   APP_HOST,
   DB_HOST,
-  DB_PORT,
+  MYSQL_DB_PORT,
+  POSTGRES_DB_PORT,
   DB_USER,
   DB_PASSWORD,
   DB_NAME,
@@ -22,9 +23,10 @@ export const envConfig = {
   PORT: APP_PORT,
   HOST: APP_HOST,
   HOSTNAME: hostname(),
-  MYSQL: {
+  DB: {
     DB_HOST: DB_HOST,
-    DB_PORT: DB_PORT,
+    MYSQL_DB_PORT: MYSQL_DB_PORT,
+    POSTGRES_DB_PORT: POSTGRES_DB_PORT,
     DB_USER: DB_USER,
     DB_PASSWORD: DB_PASSWORD,
     DB_NAME: DB_NAME,

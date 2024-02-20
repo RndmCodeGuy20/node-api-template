@@ -5,10 +5,10 @@ const util = require('util');
 const mysql = require('mysql2');
 
 const pool = mysql.createPool({
-  host: envConfig.MYSQL.DB_HOST,
-  user: envConfig.MYSQL.DB_USER,
-  password: envConfig.MYSQL.DB_PASSWORD,
-  database: envConfig.MYSQL.DB_NAME,
+  host: envConfig.DB.DB_HOST,
+  user: envConfig.DB.DB_USER,
+  password: envConfig.DB.DB_PASSWORD,
+  database: envConfig.DB.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
@@ -43,7 +43,7 @@ export const getConnection = async () => {
       if (connection) {
         logger.log(
             'verbose',
-            `Connected to the database: ${envConfig.MYSQL.DB_NAME}`,
+            `Connected to the database: ${envConfig.DB.DB_NAME}`,
         );
         const rollback = util.promisify(connection.rollback).bind(connection);
         const query = util.promisify(connection.query).bind(connection);

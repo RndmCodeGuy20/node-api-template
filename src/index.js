@@ -1,11 +1,12 @@
 import app from './app';
 import { envConfig } from '#configs/index';
-import { getConnection, logger } from '#helpers/index';
+import { logger, getPGConnection } from '#helpers/index';
 
 let server;
 
 const init = async () => {
-  await getConnection();
+  // await getConnection();
+  await getPGConnection();
   server = app.listen(envConfig.PORT, () => {
     logger.log(
         'verbose',
