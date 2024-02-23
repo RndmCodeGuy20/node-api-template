@@ -20,7 +20,7 @@ export const errorMiddleware = (error, req, res) => {
           }),
         },
         error.errorCode,
-        error.status,
+        parseInt(error.status.toString()),
     );
     return;
   }
