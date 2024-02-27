@@ -1,4 +1,5 @@
 import { debug } from '#utils/index';
+import { mysqlQuery } from '#helpers/index';
 
 /**
  * @class UserService
@@ -22,6 +23,13 @@ class UserService {
       // Check if user already exists
       // TODO: Implement this
       // if user exists throw UserApiError
+      const fetchAllUsersQuery = `SELECT *
+																	FROM data_users;`;
+      const fetchUserResult = await mysqlQuery({
+        sql: fetchAllUsersQuery,
+      });
+
+      // debug({ fetchUserResult });
 
       // Hash password
       // TODO: Implement this
@@ -35,7 +43,7 @@ class UserService {
       // TODO: Implement this
       // if email fails to send throw UserApiError
 
-      return { message: 'User created successfully' };
+      return fetchUserResult;
     } catch (error) {
       throw error;
     }

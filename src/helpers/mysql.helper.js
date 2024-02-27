@@ -5,10 +5,10 @@ const util = require('util');
 const mysql = require('mysql2');
 
 const pool = mysql.createPool({
-  host: envConfig.MYSQL.host,
-  user: envConfig.MYSQL.user,
-  password: envConfig.MYSQL.password,
-  database: envConfig.MYSQL.database,
+  host: envConfig.MYSQL.DB_HOST,
+  user: envConfig.MYSQL.DB_USER,
+  password: envConfig.MYSQL.DB_PASSWORD,
+  database: envConfig.MYSQL.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
@@ -34,13 +34,17 @@ export const getConnection = async () => {
           logger.log('error', 'Database connection was refused.');
           reject(new Error('Database connection was refused.'));
         }
+        if (err.code === 'ER_ACCESS_DENIED_ERROR') {
+          logger.log('error', 'Database access denied.');
+          reject(new Error('Database access denied.'));
+        }
       }
-      logger.log(
-          'info',
-          `Connected to the database: ${envConfig.MYSQL.DB_NAME}`,
-      );
 
       if (connection) {
+        logger.log(
+            'verbose',
+            `Connected to the database: ${envConfig.MYSQL.DB_NAME}`,
+        );
         const rollback = util.promisify(connection.rollback).bind(connection);
         const query = util.promisify(connection.query).bind(connection);
         const commit = util.promisify(connection.commit).bind(connection);
