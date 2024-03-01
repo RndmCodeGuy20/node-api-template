@@ -46,6 +46,7 @@
 		"prettier": "^3.2.4"
 	},
 	"dependencies": {
+		"@prisma/client": "^5.10.2",
 		"bcrypt": "^5.1.1",
 		"body-parser": "^1.20.2",
 		"cookie-parser": "^1.4.6",
@@ -61,6 +62,7 @@
 		"morgan": "^1.10.0",
 		"mysql2": "^3.9.2",
 		"pg": "^8.11.3",
+		"prisma": "^5.10.2",
 		"swagger-jsdoc": "^6.2.8",
 		"swagger-ui-express": "^5.0.0",
 		"timekeeper": "^2.3.1",

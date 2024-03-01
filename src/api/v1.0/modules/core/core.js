@@ -1,6 +1,6 @@
 import { CoreApiError } from './error';
 import { pkgConfig } from '#configs/index';
-import { pgsqlQuery } from '#helpers/index';
+import { prismaQuery } from '#helpers/index';
 
 /**
  * CoreServices
@@ -19,15 +19,16 @@ class CoreServices {
       if (!query) {
         throw new CoreApiError('Invalid query', 'Invalid query', 400);
       }
-      const getDataQuery = `SELECT name
-														FROM data_users`;
-      const data = await pgsqlQuery(getDataQuery);
+
+      const data = await prismaQuery('data_users', {
+        name: 'admin',
+      });
 
       const response = {
         name: pkgConfig.APP_NAME,
         version: pkgConfig.APP_VERSION,
         timestamp: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()} IST`,
-        data: data.rows,
+        data: data,
       };
 
       return response;
