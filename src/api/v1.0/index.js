@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import coreRouter from './modules/core/routes';
+import userRoutes from './modules/user/routes';
 
 const router = new Router();
 
@@ -12,6 +13,7 @@ router.get('/', (req, res) => {
   );
 });
 
+router.use(userRoutes);
 router.use(coreRouter);
 
 export default router;
