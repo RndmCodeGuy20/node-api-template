@@ -16,7 +16,8 @@ export const errorMiddleware = (error, req, res) => {
         {
           errorName: error.name,
           ...(envConfig.ENV === ENVIRONMENTS.DEVELOPMENT && {
-            details: error.stack,
+            details: error.reason,
+            stack: error.stack,
           }),
         },
         error.errorCode,

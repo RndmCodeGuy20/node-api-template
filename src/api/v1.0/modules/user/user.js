@@ -1,5 +1,4 @@
-import { debug } from '#utils/index';
-import { mysqlQuery } from '#helpers/index';
+import { redis } from '#helpers/index';
 
 /**
  * @class UserService
@@ -17,17 +16,19 @@ class UserService {
 	 */
   async register(body) {
     try {
-      const { email, password, fullName } = body;
+      // const { email, password, fullName } = body;
 
-      debug({ email, password, fullName });
+      // debug({ email, password, fullName });
       // Check if user already exists
       // TODO: Implement this
       // if user exists throw UserApiError
-      const fetchAllUsersQuery = `SELECT *
-																	FROM data_users;`;
-      const fetchUserResult = await mysqlQuery({
-        sql: fetchAllUsersQuery,
-      });
+      // const fetchAllUsersQuery = `SELECT *
+      // FROM data_users;`;
+      // const fetchUserResult = await mysqlQuery({
+      //   sql: fetchAllUsersQuery,
+      // });
+
+      await redis.hset('user:1', 'name', fullName);
 
       // debug({ fetchUserResult });
 
@@ -43,7 +44,7 @@ class UserService {
       // TODO: Implement this
       // if email fails to send throw UserApiError
 
-      return fetchUserResult;
+      return 'fetchUserResult';
     } catch (error) {
       throw error;
     }

@@ -1,13 +1,13 @@
 import app from './app';
 import { envConfig } from '#configs/index';
-import { initKafka, logger } from '#helpers/index';
+import { logger } from '#helpers/index';
 
 let server;
 
 const init = async () => {
   // await getConnection();
   // await getPGConnection();
-  await initKafka();
+  // await initKafka();
   // await consumeMessage(envConfig.KAFKA.KAFKA_TOPIC, (message) => {
   //   logger.log('verbose', `Message received: ${message.value.toString()}`);
   // });
