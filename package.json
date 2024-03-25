@@ -11,7 +11,8 @@
 		"commitlint": "commitlint --edit",
 		"commit": "cz",
 		"lint": "eslint src/**/*.js",
-		"lint:fix": "eslint src/**/*.js --fix"
+		"lint:fix": "eslint src/**/*.js --fix",
+		"workflow:env": "npx babel-node ./.workflows/copy-env-keys.js"
 	},
 	"repository": {
 		"type": "git",
@@ -45,6 +46,7 @@
 		"prettier": "^3.2.4"
 	},
 	"dependencies": {
+		"@prisma/client": "^5.10.2",
 		"bcrypt": "^5.1.1",
 		"body-parser": "^1.20.2",
 		"cookie-parser": "^1.4.6",
@@ -57,7 +59,14 @@
 		"http-status-codes": "^2.3.0",
 		"joi": "^17.12.1",
 		"jsonwebtoken": "^9.0.2",
+		"kafkajs": "^2.2.4",
 		"morgan": "^1.10.0",
+		"mysql2": "^3.9.2",
+		"pg": "^8.11.3",
+		"prisma": "^5.10.2",
+		"redis": "^4.6.13",
+		"swagger-jsdoc": "^6.2.8",
+		"swagger-ui-express": "^5.0.0",
 		"timekeeper": "^2.3.1",
 		"util": "^0.12.5",
 		"uuid": "^9.0.1",

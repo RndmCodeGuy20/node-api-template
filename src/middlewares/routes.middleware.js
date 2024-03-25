@@ -1,6 +1,5 @@
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 import { ERROR_CODES } from '#constants/index';
-import { logger } from '#helpers/index';
 
 /**
  * MethodNotAllowedError
@@ -20,7 +19,8 @@ class MethodNotAllowedError extends Error {
   constructor(message, httpStatus, errorCode) {
     super(message);
     this.name = this.constructor.name;
-    this.httpStatus = httpStatus;
+    this.message = message;
+    this.status = httpStatus;
     this.errorCode = errorCode;
   }
 }
@@ -35,10 +35,10 @@ class MethodNotAllowedError extends Error {
  */
 export const methodNotAllowed = () => {
   try {
-    logger.log('error', 'Method not allowed', { label: 'ERROR' });
+    // logger.log('error', 'Method not allowed', { label: 'ERROR' });
     throw new MethodNotAllowedError(
         ReasonPhrases.METHOD_NOT_ALLOWED,
-        StatusCodes.METHOD_NOT_ALLOWED,
+        StatusCodes.METHOD_NOT_ALLOWED.toString(),
         ERROR_CODES.NOT_ALLOWED,
     );
   } catch (error) {
@@ -64,7 +64,7 @@ class RouteNotFoundError extends Error {
   constructor(message, httpStatus, errorCode) {
     super(message);
     this.name = this.constructor.name;
-    this.httpStatus = httpStatus;
+    this.status = httpStatus;
     this.errorCode = errorCode;
   }
 }
@@ -80,7 +80,7 @@ export const routeNotFound = () => {
   try {
     throw new RouteNotFoundError(
         ReasonPhrases.NOT_FOUND,
-        StatusCodes.NOT_FOUND,
+        StatusCodes.NOT_FOUND.toString(),
         ERROR_CODES.NOT_FOUND,
     );
   } catch (error) {
