@@ -132,3 +132,8 @@ dist
 # Environment variables
 .env.local
 .env
+
+# Editor directories
+.idea/
+.vscode
+.vscode/settings.json
