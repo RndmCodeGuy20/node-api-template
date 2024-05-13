@@ -9,7 +9,12 @@ const TTL = '300';
 const redisUrl = `redis://${envConfig.REDIS.REDIS_HOST}:${envConfig.REDIS.REDIS_PORT}`;
 
 let client;
-(async () => {
+
+/**
+ * @description - Initialize Redis client
+ * @return {Promise<void>}
+ */
+export async function initRedisClient() {
   try {
     client = createClient({
       url: redisUrl,
@@ -55,7 +60,7 @@ let client;
     logger.log('error', `Error: ${error}`);
     throw error;
   }
-})();
+}
 
 export const redis = {
   get: async (key) => {

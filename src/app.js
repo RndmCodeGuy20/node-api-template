@@ -6,6 +6,8 @@ import { pkgConfig, envConfig } from '#configs/index';
 import { errorMiddleware, morganMiddleware } from '#middlewares/index';
 import apiRoutes from './api';
 import { jsend } from '#utils/index';
+import { initSocket } from '#helpers/index';
+import { createServer } from 'http';
 
 const corsOptions = {
   origin: '*',
@@ -15,6 +17,9 @@ const corsOptions = {
 };
 
 const app = express();
+
+const server = createServer(app);
+initSocket(server);
 
 app.use(helmet());
 app.use(cors(corsOptions));
@@ -40,4 +45,4 @@ app.use((err, req, res, next) => {
   errorMiddleware(err, req, res, next);
 });
 
-export default app;
+export default server;

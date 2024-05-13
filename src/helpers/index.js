@@ -4,3 +4,4 @@ export * from './pgsql.helper.js';
 export * from './prisma.helper.js';
 export * from './kafka.helper.js';
 export * from './redis.helper.js';
+export * from './socket.helper.js';

@@ -18,6 +18,8 @@ const consumer = kafka.consumer({
   groupId: envConfig.KAFKA.KAFKA_GROUP_ID,
 });
 
+let isConsumerRunning = false;
+
 /**
  * Start Kafka
  * @return {Promise<void>}
@@ -65,7 +67,10 @@ module.exports = {
     });
   },
   consumeMessage: async (topic, callback) => {
-    await consumer.subscribe({ topic, fromBeginning: true });
+    if (!isConsumerRunning) {
+      await consumer.subscribe({ topic, fromBeginning: true });
+      isConsumerRunning = true;
+    }
 
     await consumer.run({
       eachMessage: async ({ topic, partition, message }) => {
